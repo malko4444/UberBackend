@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const userModel = require("../models/userModel");
 const userServices = require("../services/userServices");
+const blackListModel = require("../models/blackListModel");
 
 const registerUser = async (req, res, next) => {
     try {
@@ -60,7 +61,18 @@ const loginUser = async(req,res, next) => {
         return res.status(401).json({error: "Invalid email or password"});
     }
     const token = user.generateAuthToken();
+    res.cookie("token", token);
     res.status(200).json({user, token});
 
 };
-module.exports = {registerUser,loginUser};
+const userProfile = async(req,res, next) => {
+    res.status(200).json({user: req.user});
+    // res.json("the profile")
+};
+const logOutUser = async(req,res, next) => {
+    res.clearCookie("token");
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+    await blackListModel.create({token});
+    res.status(200).json({message: "Logout successfully"});
+};
+module.exports = {registerUser,userProfile,loginUser,logOutUser};

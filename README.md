@@ -158,3 +158,98 @@ Example:
       "error": "Internal server error"
     }
     ```
+
+### GET /user/userProfile
+
+#### Description
+This endpoint retrieves the profile of the authenticated user.
+
+#### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user. Must be in the format `Bearer <token>`.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User profile retrieved successfully.
+  - **Body**: A JSON object containing the user details.
+  - **Example**:
+    ```json
+    {
+      "user": {
+        "_id": "userId",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "user@example.com"
+      }
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: User is not authenticated.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "You are not authenticated"
+    }
+    ```
+
+- **404 Not Found**
+  - **Description**: User not found.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "User not found"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```
+
+### POST /user/logout
+
+#### Description
+This endpoint logs out the authenticated user.
+
+#### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated user. Must be in the format `Bearer <token>`.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User successfully logged out.
+  - **Body**: A JSON object containing a success message.
+  - **Example**:
+    ```json
+    {
+      "message": "Logout successfully"
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: User is not authenticated.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "You are not authenticated"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```
