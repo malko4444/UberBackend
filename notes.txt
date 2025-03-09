@@ -1,0 +1,7 @@
+to validate the user data use the express validator to validate it 
+get the 'body' in the express validator
+creat a services folder to (
+    Database Queries (e.g., fetching users from MongoDB using Mongoose)
+Third-Party API Calls (e.g., calling payment gateways like Stripe)
+Complex Business Logic (e.g., processing payments, sending emails)
+) creat a readme.md file to docs the /user/register endpoint with description and status code 
