@@ -81,3 +81,80 @@ Example:
       "error": "Internal server error"
     }
     ```
+
+### POST /user/login
+
+#### Description
+This endpoint allows users to log in to their account.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+- `email` (string, required): The email address of the user. Must be a valid email format.
+- `password` (string, required): The password for the user. Must be at least 6 characters long.
+
+Example:
+```json
+{
+  "email": "user@example.com",
+  "password": "userpassword"
+}
+```
+
+#### Responses
+
+- **200 OK**
+  - **Description**: User successfully logged in.
+  - **Body**: A JSON object containing the user details and a JWT token.
+  - **Example**:
+    ```json
+    {
+      "user": {
+        "_id": "userId",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "user@example.com"
+      },
+      "token": "jwtToken"
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Invalid input data.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "error": [
+        {
+          "msg": "Invalid email",
+          "param": "email",
+          "location": "body"
+        },
+        {
+          "msg": "Password length is min 6",
+          "param": "password",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: Invalid email or password.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Invalid email or password"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```

@@ -39,5 +39,28 @@ const registerUser = async (req, res, next) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+const loginUser = async(req,res, next) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+        return res.status(400).json({ error: error.array() });
+    }
+    const {email,password} = req.body;
+    const user = await userModel.findOne({email}).select("+password");//also get the password from the 
+    // data base if the email is found
+    console.log("user in db",user);
+    
+    if(!user){
+        return res.status (401) .json({error: "Invalid email or password"});
 
-module.exports = registerUser;
+    }
+    const isValid = await user.comparePassword(password);
+    console.log( "is valid", isValid);
+    
+    if(!isValid){
+        return res.status(401).json({error: "Invalid email or password"});
+    }
+    const token = user.generateAuthToken();
+    res.status(200).json({user, token});
+
+};
+module.exports = {registerUser,loginUser};
