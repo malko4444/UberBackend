@@ -253,3 +253,143 @@ This endpoint logs out the authenticated user.
       "error": "Internal server error"
     }
     ```
+
+### POST /captain/register
+
+#### Description
+This endpoint is used to register a new captain.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+- `fullName`: An object containing:
+  - `firstName` (string, required): The first name of the captain. Must be at least 3 characters long.
+  - `lastName` (string, optional): The last name of the captain. Must be at least 3 characters long.
+- `age` (number, required): The age of the captain. Must be at least 18.
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain. Must be at least 8 characters long.
+- `vehicle`: An object containing:
+  - `color` (string, required): The color of the vehicle. Must be at least 3 characters long.
+  - `plateNumber` (string, required): The plate number of the vehicle. Must be at least 3 characters long.
+  - `capacity` (number, required): The capacity of the vehicle. Must be at least 1.
+  - `vehicleType` (string, required): The type of the vehicle. Must be one of `car`, `motorcycle`, or `auto`.
+- `location`: An object containing:
+  - `lat` (number, optional): The latitude of the captain's location. Defaults to 0 if not provided.
+  - `lng` (number, required): The longitude of the captain's location.
+
+Example:
+```json
+{
+  "fullName": {
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  "age": 30,
+  "email": "jane.doe@example.com",
+  "password": "password123",
+  "vehicle": {
+    "color": "Red",
+    "plateNumber": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  },
+  "location": {
+    "lat": 37.7749,
+    "lng": -122.4194
+  }
+}
+```
+
+#### Responses
+
+- **201 Created**
+  - **Description**: Captain successfully registered.
+  - **Body**: A JSON object containing the captain details and a JWT token.
+  - **Example**:
+    ```json
+    {
+      "captain": {
+        "_id": "60c72b2f9b1d8e001c8e4b8e",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "age": 30,
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plateNumber": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "location": {
+          "lat": 37.7749,
+          "lng": -122.4194
+        }
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Invalid input data.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "error": [
+        {
+          "msg": "First name is required",
+          "param": "fullName.firstName",
+          "location": "body"
+        },
+        {
+          "msg": "Age is required",
+          "param": "age",
+          "location": "body"
+        },
+        {
+          "msg": "Invalid email format",
+          "param": "email",
+          "location": "body"
+        },
+        {
+          "msg": "Password must be at least 8 characters long",
+          "param": "password",
+          "location": "body"
+        },
+        {
+          "msg": "Vehicle color is required",
+          "param": "vehicle.color",
+          "location": "body"
+        },
+        {
+          "msg": "Plate number is required",
+          "param": "vehicle.plateNumber",
+          "location": "body"
+        },
+        {
+          "msg": "Vehicle capacity is required",
+          "param": "vehicle.capacity",
+          "location": "body"
+        },
+        {
+          "msg": "Vehicle type is required",
+          "param": "vehicle.vehicleType",
+          "location": "body"
+        },
+        {
+          "msg": "Longitude is required",
+          "param": "location.lng",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```
