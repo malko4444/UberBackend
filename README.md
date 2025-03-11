@@ -393,3 +393,197 @@ Example:
       "error": "Internal server error"
     }
     ```
+
+### POST /captain/login
+
+#### Description
+This endpoint allows captains to log in to their account.
+
+#### Request Body
+The request body should be a JSON object containing the following fields:
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain. Must be at least 8 characters long.
+
+Example:
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain successfully logged in.
+  - **Body**: A JSON object containing the captain details and a JWT token.
+  - **Example**:
+    ```json
+    {
+      "captain": {
+        "_id": "60c72b2f9b1d8e001c8e4b8e",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "age": 30,
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plateNumber": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "location": {
+          "lat": 37.7749,
+          "lng": -122.4194
+        }
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+    ```
+
+- **400 Bad Request**
+  - **Description**: Invalid input data.
+  - **Body**: A JSON object containing the error details.
+  - **Example**:
+    ```json
+    {
+      "error": [
+        {
+          "msg": "Invalid email",
+          "param": "email",
+          "location": "body"
+        },
+        {
+          "msg": "Password length is min 8",
+          "param": "password",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: Invalid email or password.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Invalid email or password"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```
+
+### GET /captain/profile
+
+#### Description
+This endpoint retrieves the profile of the authenticated captain.
+
+#### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated captain. Must be in the format `Bearer <token>`.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain profile retrieved successfully.
+  - **Body**: A JSON object containing the captain details.
+  - **Example**:
+    ```json
+    {
+      "captain": {
+        "_id": "60c72b2f9b1d8e001c8e4b8e",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "age": 30,
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "Red",
+          "plateNumber": "ABC123",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "location": {
+          "lat": 37.7749,
+          "lng": -122.4194
+        }
+      }
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: Captain is not authenticated.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "You are not authenticated"
+    }
+    ```
+
+- **404 Not Found**
+  - **Description**: Captain not found.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "Captain not found"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```
+
+### POST /captain/logout
+
+#### Description
+This endpoint logs out the authenticated captain.
+
+#### Request Headers
+- `Authorization` (string, required): The JWT token of the authenticated captain. Must be in the format `Bearer <token>`.
+
+#### Responses
+
+- **200 OK**
+  - **Description**: Captain successfully logged out.
+  - **Body**: A JSON object containing a success message.
+  - **Example**:
+    ```json
+    {
+      "message": "Logout successfully"
+    }
+    ```
+
+- **401 Unauthorized**
+  - **Description**: Captain is not authenticated.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "message": "You are not authenticated"
+    }
+    ```
+
+- **500 Internal Server Error**
+  - **Description**: An error occurred on the server.
+  - **Body**: A JSON object containing the error message.
+  - **Example**:
+    ```json
+    {
+      "error": "Internal server error"
+    }
+    ```

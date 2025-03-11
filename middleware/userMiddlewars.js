@@ -31,6 +31,8 @@ const isBlackListed = await BlackList.findOne({ token: token });
         // Verify the token
         console.log("env", process.env.SECRETKEY);
         
+        
+        
         const decoded = jwt.verify(token, process.env.SECRETKEY);
         console.log("Decoded Token:", decoded);
 
